@@ -1,17 +1,20 @@
 import pandas as pd
+import numpy as np 
 df = pd.read_csv('team_stats_2003_2023.csv')
 
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', None)
-panthers_df = df[df['team'] == 'Carolina Panthers'].copy()
-print(panthers_df)
+#QUESTÃO 1 Qual foi a média de pontos marcados (points) pelo 'Green Bay Packers' nas temporadas em que eles tiveram 11 ou mais vitórias (wins)?
 
-#ordenando o df pela a coluna de vitórias em ordem decrescente
-top_seasons = panthers_df.sort_values(by='wins', ascending=False)
+print("Média de pontos dos packers com 11+ vitórias")
+#filtrando
+packers_wins = df[(df['team'] == 'Green Bay Packers') & (df['wins'] >= 11)]
+avg_points = packers_wins['points'].mean()
 
-top_5_seasons = top_seasons.head(5)
+print(f"A média de pontos dos Packers em temporadas com 11 + vitórias foi: {avg_points:.2f}\n")
+print("-" * 50)
 
-print("\nPanthers")
-print(top_5_seasons[['year', 'wins']])
-print(top_5_seasons.mean())
+# 5 temporadas, de toda a liga, em que um time teve a defesa mais frágil, ou seja, sofreu mais pontos
 
+print("\n--- as piores 5 defesas(mais pontos sofridos) ---")
+
+worst_defences = df.sort_values(by='points_opp', ascending=False)
+print(worst_defences[['year', 'team', 'wins', 'points_opp']].head(5))
